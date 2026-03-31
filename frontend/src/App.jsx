@@ -12,7 +12,8 @@ import {
   applyUserPreset,
   fetchModelPresetsMap,
 } from './modelPresetStorage'
-const POLL_INTERVAL = 500
+/** GET /vehicle/state poll — higher interval lowers backend QPS (tabs multiply load). */
+const POLL_INTERVAL = 2000
 /** Ignore poll overwrite briefly after slider/toggle so debounced speed POST can land first */
 const POLL_AFTER_INTERACTION_GUARD_MS = Math.max(POLL_INTERVAL, 300) + 250
 
