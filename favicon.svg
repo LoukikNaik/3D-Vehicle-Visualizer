@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Vehicle control">
+  <defs>
+    <linearGradient id="a" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="#050510"/>
+  <circle cx="16" cy="16" r="10" fill="none" stroke="url(#a)" stroke-width="2" opacity="0.85"/>
+  <circle cx="16" cy="16" r="3" fill="url(#a)"/>
+  <path
+    stroke="url(#a)"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    fill="none"
+    opacity="0.9"
+    d="M16 5v4M16 23v4M5 16h4M23 16h4"
+  />
+</svg>
