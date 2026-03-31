@@ -20,22 +20,22 @@ export const DEV_DEFAULT_API_BASE_B64 = encodeApiBaseForLogin(DEV_DEFAULT_API_BA
  */
 export function decodeApiBaseFromLogin(base64Input) {
   const t = String(base64Input ?? '').trim().replace(/\s/g, '')
-  if (!t) throw new Error('Encoded URL is required')
+  if (!t) throw new Error('API key is required')
   try {
     const binary = atob(t)
     const bytes = new Uint8Array(binary.length)
     for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
     const decoded = new TextDecoder().decode(bytes).trim()
-    if (!decoded) throw new Error('Decoded value is empty')
+    if (!decoded) throw new Error('API key is empty')
     return decoded
   } catch (e) {
     if (
       e instanceof Error &&
-      (e.message === 'Encoded URL is required' || e.message === 'Decoded value is empty')
+      (e.message === 'API key is required' || e.message === 'API key is empty')
     ) {
       throw e
     }
-    throw new Error('Invalid Base64 — check what you pasted')
+    throw new Error('Invalid API key')
   }
 }
 
@@ -45,7 +45,7 @@ export function decodeApiBaseFromLogin(base64Input) {
 export function normalizeApiBase(raw) {
   const t = String(raw ?? '').trim()
   if (!t) {
-    throw new Error('Server URL is required')
+    throw new Error('API key is required')
   }
   let s = t.replace(/\/+$/, '')
   if (!/^https?:\/\//i.test(s)) {
@@ -60,10 +60,10 @@ export function normalizeApiBase(raw) {
   try {
     u = new URL(s)
   } catch {
-    throw new Error('Invalid server URL')
+    throw new Error('Invalid API key')
   }
   if (u.protocol !== 'http:' && u.protocol !== 'https:') {
-    throw new Error('Only http and https URLs are allowed')
+    throw new Error('Invalid API key')
   }
   return u.origin
 }

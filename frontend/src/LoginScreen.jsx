@@ -25,13 +25,11 @@ export function LoginScreen() {
           Vehicle control
         </h1>
         <p className="mt-2 font-orbitron text-[10px] leading-relaxed tracking-wide text-cyan-900">
-          Paste the Base64-encoded backend origin you were
-          given (decodes to your API base URL). The raw URL is not stored in the static site — only
-          people with the encoded string can point this UI at your server.
+          Enter your API key to connect Vehicle control to your backend.
         </p>
         <form onSubmit={submit} className="mt-5 space-y-3">
           <label className="block font-orbitron text-[9px] uppercase tracking-widest text-cyan-700">
-            Encoded server URL (Base64)
+            API key
             <textarea
               autoComplete="off"
               spellCheck={false}
@@ -39,7 +37,7 @@ export function LoginScreen() {
               value={encoded}
               onChange={(e) => setEncoded(e.target.value)}
               className="mt-1.5 w-full resize-y rounded border border-cyan-500/35 bg-black/50 px-3 py-2.5 font-mono text-[11px] leading-relaxed text-cyan-100 placeholder:text-gray-600 focus:border-cyan-400/60 focus:outline-none"
-              placeholder="e.g. aHR0cHM6Ly95b3VyLWFwaS5leGFtcGxlLmNvbQ=="
+              placeholder="Paste your API key"
               disabled={busy}
             />
           </label>
