@@ -3,7 +3,7 @@ import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { MESH_CONFIG } from './meshConfig'
-import { ALL_MODEL_PATHS } from './vehicles'
+import { ALL_MODEL_PATHS } from '../vehicles'
 import { buildPartInfo, findInteractiveRoot } from './partInspect'
 
 const _axisWorld = new THREE.Vector3()
@@ -14,6 +14,7 @@ const _qWorld = new THREE.Quaternion()
 const _qAlign = new THREE.Quaternion()
 const _vAxleW = new THREE.Vector3()
 const _vHubTargetW = new THREE.Vector3()
+const _spinQuat = new THREE.Quaternion()
 
 /** Unit vector in model bind pose: which local axis the wheel spins around. */
 function setLocalSpinAxis(vector, axisKey) {
@@ -405,7 +406,6 @@ export function Vehicle({
       const axisKey =
         vehicleConfig?.wheelSpinLocalAxis ?? MESH_CONFIG.wheels.rotationAxis ?? 'x'
       setLocalSpinAxis(_localSpinAxis, axisKey)
-      const spinQuat = new THREE.Quaternion()
       wheels.forEach(w => {
         const baseQuat = w.userData._baseQuat
         if (!baseQuat) return
@@ -413,8 +413,8 @@ export function Vehicle({
         _axisWorld.copy(_localSpinAxis).applyQuaternion(baseQuat)
         if (_axisWorld.lengthSq() < 1e-10) _axisWorld.set(1, 0, 0)
         else _axisWorld.normalize()
-        spinQuat.setFromAxisAngle(_axisWorld, sign * wheelAngleRef.current)
-        w.quaternion.copy(spinQuat).multiply(baseQuat)
+        _spinQuat.setFromAxisAngle(_axisWorld, sign * wheelAngleRef.current)
+        w.quaternion.copy(_spinQuat).multiply(baseQuat)
       })
     }
 

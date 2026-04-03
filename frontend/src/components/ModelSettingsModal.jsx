@@ -5,7 +5,7 @@ import {
   saveModelPreset,
   clearModelPreset,
   persistModelPresetToServer,
-} from './modelPresetStorage'
+} from '../modelPresetStorage'
 
 const AXIS = ['x', 'y', 'z']
 
@@ -102,15 +102,9 @@ function NamePicker({ label, nodeNames, selected, onChange, help }) {
   )
 }
 
-function fmtHinge(n) {
-  const v = Number(n)
-  if (!Number.isFinite(v)) return '0'
-  const r = Math.round(v * 10000) / 10000
-  return String(r)
-}
-
 function round4(n) {
-  return Math.round(Number(n) * 10000) / 10000
+  const v = Number(n)
+  return Number.isFinite(v) ? Math.round(v * 10000) / 10000 : 0
 }
 
 /** Drop empty / invalid per-door entries before save */
@@ -229,9 +223,9 @@ export function ModelSettingsModal({
         },
       }))
     } else {
-      setHingeWorldX(fmtHinge(x))
-      setHingeWorldY(fmtHinge(y))
-      setHingeWorldZ(fmtHinge(z))
+      setHingeWorldX(String(round4(x)))
+      setHingeWorldY(String(round4(y)))
+      setHingeWorldZ(String(round4(z)))
       setHingeMode('manualWorld')
     }
     setAdvOpen(true)

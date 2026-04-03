@@ -21,22 +21,17 @@ export const DEV_DEFAULT_API_BASE_B64 = encodeApiBaseForLogin(DEV_DEFAULT_API_BA
 export function decodeApiBaseFromLogin(base64Input) {
   const t = String(base64Input ?? '').trim().replace(/\s/g, '')
   if (!t) throw new Error('API key is required')
+  let decoded
   try {
     const binary = atob(t)
     const bytes = new Uint8Array(binary.length)
     for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
-    const decoded = new TextDecoder().decode(bytes).trim()
-    if (!decoded) throw new Error('API key is empty')
-    return decoded
-  } catch (e) {
-    if (
-      e instanceof Error &&
-      (e.message === 'API key is required' || e.message === 'API key is empty')
-    ) {
-      throw e
-    }
+    decoded = new TextDecoder().decode(bytes).trim()
+  } catch {
     throw new Error('Invalid API key')
   }
+  if (!decoded) throw new Error('API key is empty')
+  return decoded
 }
 
 /**

@@ -1,6 +1,6 @@
 import { useAuth } from './AuthContext'
 import { LoginScreen } from './LoginScreen'
-import App from './App'
+import App from '../App'
 
 export function AuthShell() {
   const { phase, statusError, retryWithNewUrl } = useAuth()

@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
-import { Scene } from './Scene'
-import { Controls } from './Controls'
-import { VehicleSelector } from './VehicleSelector'
-import { ModelSettingsModal } from './ModelSettingsModal'
-import { PartInfoPanel } from './PartInfoPanel'
+import { Scene } from './scene/Scene'
+import { Controls } from './components/Controls'
+import { VehicleSelector } from './components/VehicleSelector'
+import { ModelSettingsModal } from './components/ModelSettingsModal'
+import { PartInfoPanel } from './scene/PartInfoPanel'
 import { VEHICLES } from './vehicles'
-import { useAuth } from './AuthContext'
+import { useAuth } from './api/AuthContext'
 import {
   getModelPresetKey,
   loadModelPreset,
@@ -154,8 +154,15 @@ export default function App() {
           const fresh =
             Date.now() - lastUserVehicleInteractionAtRef.current >=
             POLL_AFTER_INTERACTION_GUARD_MS
-          if (fresh) return { ...prev, [selectedVehicleId]: incoming }
-          return { ...prev, [selectedVehicleId]: { ...incoming, ...cur } }
+          const next = fresh ? incoming : { ...incoming, ...cur }
+          if (
+            cur.brakeLights === next.brakeLights &&
+            cur.doorsOpen === next.doorsOpen &&
+            cur.speed === next.speed
+          ) {
+            return prev
+          }
+          return { ...prev, [selectedVehicleId]: next }
         })
         setBackendOnline(true)
       } catch {

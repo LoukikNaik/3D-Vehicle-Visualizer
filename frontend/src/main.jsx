@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { AuthProvider } from './AuthContext'
-import { AuthShell } from './AuthShell'
+import { AuthProvider } from './api/AuthContext'
+import { AuthShell } from './api/AuthShell'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
